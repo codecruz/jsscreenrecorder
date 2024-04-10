@@ -6,10 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (initButton.value === "▶️ Iniciar") {
             // Iniciar la grabación
             const media = await navigator.mediaDevices.getDisplayMedia({
-                video: { frameRate: { ideal: 30 } }
+                video: { 
+                    width: { ideal: 3840, max: 3840 }, // Ancho ideal y máximo de 3840px (4K)
+                    height: { ideal: 2160, max: 2160 }, // Altura ideal y máxima de 2160px (4K)
+                    frameRate: { ideal: 60 } // Velocidad de cuadros ideal de 60fps
+                }
             });
             mediaRecorder = new MediaRecorder(media, {
-                mimeType: 'video/webm;codecs=vp8,opus'
+                mimeType: 'video/webm;codecs=vp8,opus' // Utiliza el codec VP9 para obtener la mejor calidad
             });
             mediaRecorder.start();
 
@@ -22,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             mediaRecorder.addEventListener("dataavailable", (e) => {
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(e.data);
-                link.download = "captura.webm";
+                link.download = "captura.mp4";
                 link.click();
             });
 
